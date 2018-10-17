@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import ReactPaginate from 'react-paginate';
 
 class App extends React.Component {
   constructor() {
@@ -7,11 +8,12 @@ class App extends React.Component {
 
     this.state = {
       searchTerm: '',
-      results: []
+      results: [],
     }
 
     this.searchDB = this.searchDB.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handlePageClick = this.handlePageClick.bind(this);
   }
 
   handleChange(event) {
@@ -23,9 +25,25 @@ class App extends React.Component {
   searchDB() {
     axios.get(`/events?q=${this.state.searchTerm}`)
     .then((response) => {
+      console.log(response.data)
       this.setState({
         results: response.data
       })
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
+
+  handlePageClick(event) {
+    console.log(event.selected)
+    axios.get(`/events?q=${this.state.searchTerm}&_page=${event.selected + 1}`)
+    .then((response) => {
+      // console.log(response.data)
+      this.setState({
+        results: response.data
+      })
+      this.state.page++
     })
     .catch((error) => {
       console.log(error);
@@ -40,11 +58,29 @@ class App extends React.Component {
 
         <div>
           {
-            this.state.results.map((result) => {
-              return <div>{result.description}</div>
+            this.state.results.map((result, index) => {
+              return (
+                <div key={index}>
+                  <div>{result.date}</div>
+                  <div>{result.description}</div>
+                  <br/>
+                </div>
+              )
             })
           }
         </div>
+
+        <ReactPaginate previousLabel={"previous"}
+             nextLabel={"next"}
+             breakLabel={<a href="">...</a>}
+             breakClassName={"break-me"}
+             pageCount={this.state.pageCount}
+             marginPagesDisplayed={2}
+             pageRangeDisplayed={5}
+             onPageChange={this.handlePageClick}
+             containerClassName={"pagination"}
+             subContainerClassName={"pages pagination"}
+             activeClassName={"active"} />
       </div>
     )
   }
