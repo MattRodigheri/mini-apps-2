@@ -23,7 +23,7 @@ class App extends React.Component {
   }
 
   searchDB() {
-    axios.get(`/events?q=${this.state.searchTerm}`)
+    axios.get(`/events?q=${this.state.searchTerm}&_page=1&_limit=10`)
     .then((response) => {
       console.log(response.data)
       this.setState({
@@ -36,14 +36,11 @@ class App extends React.Component {
   }
 
   handlePageClick(event) {
-    console.log(event.selected)
-    axios.get(`/events?q=${this.state.searchTerm}&_page=${event.selected + 1}`)
+    axios.get(`/events?q=${this.state.searchTerm}&_page=${event.selected + 1}&_limit=10`)
     .then((response) => {
-      // console.log(response.data)
       this.setState({
         results: response.data
       })
-      this.state.page++
     })
     .catch((error) => {
       console.log(error);
