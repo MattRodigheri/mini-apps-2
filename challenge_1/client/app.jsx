@@ -6,12 +6,21 @@ class App extends React.Component {
     super();
 
     this.state = {
-
+      searchTerm: ''
     }
+
+    this.searchDB = this.searchDB.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  componentDidMount() {
-    axios.get('/events')
+  handleChange(event) {
+    this.setState({
+      searchTerm: event.target.value
+    })
+  }
+
+  searchDB() {
+    axios.get(`/events?q=${this.state.searchTerm}`)
     .then(function (response) {
       console.log(response);
     })
@@ -23,7 +32,8 @@ class App extends React.Component {
   render() {
     return(
       <div>
-        <div>Hello World</div>
+        <input type='text' onChange={this.handleChange}/>
+        <input type='submit' onClick={this.searchDB}/>
       </div>
     )
   }
