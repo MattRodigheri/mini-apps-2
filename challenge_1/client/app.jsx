@@ -6,7 +6,8 @@ class App extends React.Component {
     super();
 
     this.state = {
-      searchTerm: ''
+      searchTerm: '',
+      results: []
     }
 
     this.searchDB = this.searchDB.bind(this);
@@ -21,10 +22,12 @@ class App extends React.Component {
 
   searchDB() {
     axios.get(`/events?q=${this.state.searchTerm}`)
-    .then(function (response) {
-      console.log(response);
+    .then((response) => {
+      this.setState({
+        results: response.data
+      })
     })
-    .catch(function (error) {
+    .catch((error) => {
       console.log(error);
     });
   }
@@ -34,6 +37,14 @@ class App extends React.Component {
       <div>
         <input type='text' onChange={this.handleChange}/>
         <input type='submit' onClick={this.searchDB}/>
+
+        <div>
+          {
+            this.state.results.map((result) => {
+              return <div>{result.description}</div>
+            })
+          }
+        </div>
       </div>
     )
   }
