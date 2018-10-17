@@ -6,8 +6,8 @@ module.exports = {
     "mode": "development",
     "entry": "./client/index.jsx",
     "output": {
-        "path": __dirname+'/static',
-        "filename": "[name].[chunkhash:8].js"
+        "path": __dirname+'/public',
+        "filename": "bundle.js"
     },
     "module": {
         "rules": [
