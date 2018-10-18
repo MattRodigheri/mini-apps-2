@@ -1,21 +1,23 @@
 import React from 'react';
 import axios from 'axios';
+import ChartComponent from './ChartComponent.jsx';
 
 class App extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      bpiData: {}
+      bpiDataKeys: [],
+      bpiDataValues: []
     }
   }
 
   componentDidMount() {
     axios.get('/coinData')
     .then((response) => {
-      console.log(response.data)
       this.setState({
-        bpiData: response.data.bpi
+        bpiDataKeys: Object.keys(response.data.bpi),
+        bpiDataValues: Object.values(response.data.bpi)
       })
     })
     .catch((error) => {
@@ -24,8 +26,14 @@ class App extends React.Component {
   }
 
   render() {
+    if (this.state.bpiDataKeys.length === 0) {
+      return null;
+    }
     return (
-      <div>Powered by CoinDesk</div>
+      <div>
+        <ChartComponent data={this.state} />
+        <div>Powered by CoinDesk</div>
+      </div>
     )
   }
 }

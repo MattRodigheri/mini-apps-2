@@ -9,7 +9,6 @@ app.use(express.static(__dirname + './../public'));
 
 var startDate = moment().subtract(10, 'days').format('YYYY-MM-DD');
 var endDate = moment().format('YYYY-MM-DD');
-console.log(startDate)
 
 app.get('/coinData', (req, res) => {
   request(`https://api.coindesk.com/v1/bpi/historical/close.json?start=${startDate}&end=${endDate}`, function(err, data) {
