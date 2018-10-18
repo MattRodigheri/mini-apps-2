@@ -1,21 +1,19 @@
-import React from 'react';
+import React, {Component} from 'react';
 import axios from 'axios';
 import ChartJS from 'chart.js';
 
-class ChartComponent extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+class ChartComponent extends Component {
 
   componentDidMount() {
+    const {bpiDataKeys, bpiDataValues} = this.props.data;
     var ctx = document.getElementById("myChart");
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: this.props.data.bpiDataKeys,
+            labels: bpiDataKeys,
             datasets: [{
                 label: 'Value in $',
-                data: this.props.data.bpiDataValues,
+                data: bpiDataValues,
                 backgroundColor: 'rgba(153, 102, 255, 0.2)',
                 borderColor: 'rgba(153, 102, 255, 1)',
                 borderWidth: 1

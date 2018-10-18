@@ -19,7 +19,6 @@ app.get('/coinData', (req, res) => {
       res.send(data.body)
     }
   })
-
 })
 
 
