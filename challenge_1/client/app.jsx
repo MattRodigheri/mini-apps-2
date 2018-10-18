@@ -2,6 +2,9 @@ import React from 'react';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 
+import Edit from './Edit.jsx';
+import EditBox from './EditBox.jsx';
+
 class App extends React.Component {
   constructor() {
     super();
@@ -9,6 +12,7 @@ class App extends React.Component {
     this.state = {
       searchTerm: '',
       results: [],
+      display: 'none'
     }
 
     this.searchDB = this.searchDB.bind(this);
@@ -25,7 +29,6 @@ class App extends React.Component {
   searchDB() {
     axios.get(`/events?q=${this.state.searchTerm}&_page=1&_limit=10`)
     .then((response) => {
-      console.log(response.data)
       this.setState({
         results: response.data
       })
@@ -57,9 +60,11 @@ class App extends React.Component {
           {
             this.state.results.map((result, index) => {
               return (
-                <div key={index}>
+                <div key={index} >
                   <div>{result.date}</div>
-                  <div>{result.description}</div>
+                  <div id={index}>{result.description}</div>
+                  <Edit id={index} edit={this.editEntry}/>
+                  <br/>
                   <br/>
                 </div>
               )
@@ -81,7 +86,6 @@ class App extends React.Component {
       </div>
     )
   }
-
 }
 
 export default App;
