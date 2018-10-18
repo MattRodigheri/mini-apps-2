@@ -5,9 +5,6 @@ class App extends React.Component {
     super();
   }
 
-  this.state = {
-
-  }
 
 
   render() {
@@ -16,3 +13,5 @@ class App extends React.Component {
     )
   }
 }
+
+export default App;
