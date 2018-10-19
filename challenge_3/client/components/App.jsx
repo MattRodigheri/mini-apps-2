@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import axios from 'axios';
+import ScoreBoard from './ScoreBoard.jsx';
 
 class App extends Component {
   constructor() {
@@ -48,6 +48,7 @@ class App extends Component {
         <button value='8' onClick={(event) => this.pinSelection(event)}>8</button>
         <button value='9' onClick={(event) => this.pinSelection(event)}>9</button>
         <button value='10' onClick={(event) => this.pinSelection(event)}>10</button>
+        <ScoreBoard score={this.state} />
       </div>
     )
   }
