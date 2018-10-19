@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 const ScoreBoard = function(props) {
-  if (props.score.frame === 2) {
+  if (props.score.frameHalf === 2) {
     return (
       <div>
         <div>Bowl: {props.score.firstBowl}</div>

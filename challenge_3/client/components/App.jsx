@@ -7,28 +7,58 @@ class App extends Component {
 
     this.state = {
       frame: 1,
+      frameHalf: 1,
       firstBowl: 0,
       secondBowl: 0,
-      score: 0
+      score: 0,
+      strikeBonus: 0,
     }
 
     this.pinSelection = this.pinSelection.bind(this);
   }
 
   pinSelection(event) {
-    this.setState({
-      frame: this.state.frame + 1,
-      score: this.state.score + Number(event.target.value)
-    })
-    if (this.state.frame === 1) {
+    var points = Number(event.target.value);
+    if (this.state.strikeBonus > 3) {
+      console.log('test')
       this.setState({
-        firstBowl: Number(event.target.value)
+        strikeBonus: 0
       })
     }
-    if (this.state.frame === 2) {
+    this.setState({
+      frameHalf: this.state.frameHalf + 1,
+      score: this.state.score + points,
+    })
+    if (this.state.frameHalf === 1) {
+      if (this.state.strikeBonus === 1) {
+        this.setState({
+          score: this.state.score + (points * 2),
+          strikeBonus: this.state.strikeBonus + 1
+        })
+      }
       this.setState({
-        secondBowl: Number(event.target.value),
-        frame: 1
+        firstBowl: points
+      })
+    }
+    if (this.state.frameHalf === 2) {
+      if (this.state.strikeBonus === 2) {
+        this.setState({
+          score: this.state.score + (points * 2),
+          strikeBonus: this.state.strikeBonus + 1
+        })
+      }
+      this.setState({
+        secondBowl: points,
+        frame: this.state.frame + 1,
+        frameHalf: 1,
+      })
+    }
+
+    if (points === 10) {
+      this.setState({
+        frame: this.state.frame + 1,
+        frameHalf: 1,
+        strikeBonus: this.state.strikeBonus + 1
       })
     }
   }
