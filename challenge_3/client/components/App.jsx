@@ -19,6 +19,7 @@ class App extends Component {
 
   pinSelection(event) {
     var points = Number(event.target.value);
+
     if (this.state.strikeBonus > 3) {
       console.log('test')
       this.setState({
@@ -53,13 +54,17 @@ class App extends Component {
         frameHalf: 1,
       })
     }
-
-    if (points === 10) {
+    //strike
+    if (points === 10 && this.state.frameHalf === 1) {
       this.setState({
         frame: this.state.frame + 1,
         frameHalf: 1,
         strikeBonus: this.state.strikeBonus + 1
       })
+    }
+    //spare
+    if (this.state.firstBowl + points === 10) {
+      alert('spare')
     }
   }
 
