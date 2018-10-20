@@ -12,6 +12,7 @@ class App extends Component {
       secondBowl: 0,
       score: 0,
       strikeBonus: 0,
+      spareBonus: 0
     }
 
     this.pinSelection = this.pinSelection.bind(this);
@@ -21,9 +22,13 @@ class App extends Component {
     var points = Number(event.target.value);
 
     if (this.state.strikeBonus > 3) {
-      console.log('test')
       this.setState({
         strikeBonus: 0
+      })
+    }
+    if (this.state.spareBonus > 2) {
+      this.setState({
+        spareBonus: 0
       })
     }
     this.setState({
@@ -35,6 +40,12 @@ class App extends Component {
         this.setState({
           score: this.state.score + (points * 2),
           strikeBonus: this.state.strikeBonus + 1
+        })
+      }
+      if (this.state.spareBonus === 1) {
+        this.setState({
+          score: this.state.score + (points * 2),
+          spareBonus: this.state.spareBonus + 1
         })
       }
       this.setState({
@@ -64,7 +75,22 @@ class App extends Component {
     }
     //spare
     if (this.state.firstBowl + points === 10) {
-      alert('spare')
+      this.setState({
+        spareBonus: 1
+      })
+    }
+
+    if (this.state.frame === 10) {
+      alert('Game Over! Total Score: ' + this.state.score);
+      this.setState({
+        frame: 1,
+        frameHalf: 1,
+        firstBowl: 0,
+        secondBowl: 0,
+        score: 0,
+        strikeBonus: 0,
+        spareBonus: 0
+      })
     }
   }
 
