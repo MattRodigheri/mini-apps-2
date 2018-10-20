@@ -16,14 +16,14 @@ class App extends Component {
        0,0,0,0,0,0,0,0,0,0,
        0,0,0,0,0,0,0,0,0,0,
        0,0,0,0,0,0,0,0,0,0,
-       0,0,0,0,0,0,0,0,0,0
+       0,0,0,0,0,0,0,0,0,0,0
      ]
    }
    this.reaveal = this.reveal.bind(this);
  }
 
  reveal(event) {
-   console.log(event.target.id)
+   event.target.innerHTML = event.target.className;
  }
 
   render() {
@@ -32,12 +32,23 @@ class App extends Component {
       randomNums.push(Math.floor(Math.random()*100) + 1);
     }
     return this.state.board.map((button, index) => {
+      if (index === 0) {
+        return '';
+      }
+      if (index % 10 === 0) {
+        return <span key={index}><button id={index} className='0' onClick={(event) => this.reveal(event)}></button><br /></span>
+      }
       for (var i = 0; i < randomNums.length; i++) {
+        //determine bombs
         if (index === randomNums[i]) {
-          return <button key={index} id={'bomb'} onClick={(event) => this.reveal(event)}>b</button>
+          return <button key={index} id={index} className='bomb' onClick={(event) => this.reveal(event)}>b</button>
+        }
+        //near-bombs
+        if (index + 1 === randomNums[i] || index - 1 === randomNums[i] || index + 10 === randomNums[i] || index - 10 === randomNums[i] || index + 9 === randomNums[i] || index - 9 === randomNums[i] || index + 11 === randomNums[i] || index - 11 === randomNums[i]) {
+          return <button key={index} id={index} className='1' onClick={(event) => this.reveal(event)}>{this.className}</button>
         }
       }
-      return <button key={index} id={index} onClick={(event) => this.reveal(event)}></button>
+        return <button key={index} id={index} className='0' onClick={(event) => this.reveal(event)}></button>
     })
   }
 }
